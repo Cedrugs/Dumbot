@@ -24,7 +24,8 @@ class Error(Cog, name='Error'):
                 missing_args = str(error.param).replace('_', '').split(':')[0]
                 err_msg = f"You must fill `{missing_args}` parameter"
             elif isinstance(error, commands.MissingPermissions):
-                err_msg = f"You are missing {', '.join(f'`{perms}`' for perms in error.missing_perms)} permission(s)"
+                perms = ', '.join(f'`{str(perm).title().replace("_", " ")}`' for perm in error.missing_perms)
+                err_msg = f"I'm missing {perms} permission(s)"
             elif isinstance(error, commands.MemberNotFound):
                 err_msg = f"There's no member named`{error.argument}`"
             elif isinstance(error, commands.RoleNotFound):
