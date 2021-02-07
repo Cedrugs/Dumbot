@@ -46,8 +46,8 @@ class Database:
             return [item[0] for item in await items.fetchall()]
 
     async def commit(self):
-        async with aioconnect(self.path) as db:
-            await db.commit()
+        async with aioconnect(self.path) as cur:
+            await cur.commit()
 
 
 db = Database()
