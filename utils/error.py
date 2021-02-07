@@ -15,6 +15,11 @@ class InvalidGuild(Exception):
     pass
 
 
+class InvalidMessage(Exception):
+    def __init__(self, text):
+        self.text = text
+
+
 class InvalidChoice(Exception):
 
     def __init__(self, choice: list):
@@ -31,3 +36,10 @@ class NotBanned(Exception):
 
     def __init__(self, uname):
         self.uname = uname
+
+
+class MissingRequiredParam(Exception):
+    """
+    Oops! Something is missing.
+    """
+    pass

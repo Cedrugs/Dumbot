@@ -4,18 +4,47 @@ from discord.utils import find
 from lib.database import db
 from utils.checks import CustomCooldown
 from utils.collections import *
-from utils.error import NotBanned
+from utils.error import *
 from typing import Optional, List, Union
+from emoji import UNICODE_EMOJI
 
 
 import discord
 import re
 import asyncio
 
+
 __all__ = (
     'get_db_prefix', 'linebreaks', 'generate_param', 'BannedMember', 'send_error', 'send_success', 'get_mute_role',
-    'Duration', 'cv_sec', 'dm_user', 'num_cv', 'send_confirmation', 'nickname', 'clean_roles', 'del_msg'
+    'Duration', 'cv_sec', 'dm_user', 'num_cv', 'send_confirmation', 'nickname', 'clean_roles', 'del_msg', 'is_unicode',
+    'finditer', 'fetch_message'
 )
+
+
+def finditer(name, iterable):
+    """
+    Find the most similar things on the iterable
+    :param name: The pattern name
+    :param iterable: Iterable either list or tuple.
+    :return: The most similar things
+    """
+    items = []
+    most_sim = None
+    for item in iterable:
+        result = re.search(name.lower(), str(item).lower())
+        if result:
+            items.append(item)
+    if len(items) == 1:
+        return items[0]
+    if len(items) > 1:
+        most_sim = items[0]
+        len_most_sim = len(str(items[0]))
+        for thing in items:
+            if len(str(thing)) < len_most_sim:
+                most_sim = thing
+    if not most_sim and not items:
+        return None
+    return most_sim
 
 
 def linebreaks(amount: int = 55, line: str = '-'):
@@ -55,6 +84,10 @@ def cv_sec(time: int):
     second_ = f'{seconds} second{"s" if seconds > 1 else ""} '
     return f"{day_ if day > 0 else ''}{hour_ if hour > 0 else ''}" \
            f"{minute_ if minutes > 0 else ''}{second_ if seconds > 0 else ''}".lstrip().rstrip()
+
+
+def is_unicode(emoji: str):
+    return emoji in UNICODE_EMOJI
 
 
 def get_cmd_info(cmd: commands.Command):
@@ -119,6 +152,28 @@ def nickname(ctx_or_bot, user_id: int, mention: bool = False):
     if mention:
         return user.mention
     return str(user)
+
+
+async def fetch_message(ctx_or_bot, channel_id: int, message_id: int, guild_id: int = None):
+    message = None
+    if isinstance(ctx_or_bot, (commands.Bot, commands.AutoShardedBot)):
+        guild = ctx_or_bot.get_guild(guild_id)
+        if not guild_id or guild:
+            raise InvalidMessage(str(guild))
+        channel = guild.get_channel(channel_id)
+        if channel:
+            try:
+                message = await channel.fetch_message(message_id)
+            except discord.NotFound:
+                pass
+    if isinstance(ctx_or_bot, commands.Context):
+        channel = ctx_or_bot.guild.get_channel(channel_id)
+        if channel:
+            try:
+                message = await channel.fetch_message(message_id)
+            except discord.NotFound:
+                pass
+    return message
 
 
 async def del_msg(ctx, amount: Optional[int] = 1, user: Optional[bool] = True, bot: commands.AutoShardedBot = None):

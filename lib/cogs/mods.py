@@ -4,6 +4,7 @@ from utils.checks import *
 from utils.tools import *
 from utils.collections import *
 from utils.error import *
+from utils.wait_for import *
 from utils.paginator import *
 from discord import Member, TextChannel, Role, Permissions, PermissionOverwrite, Embed
 from typing import Optional
@@ -348,9 +349,16 @@ class Mods(Cog, name='Moderation'):
         channel = channel or ctx.channel
         em = Embed(title="📣 New Announcement!", description=text, timestamp=datetime.utcnow(), color=colors['yellow'])
         em.set_footer(text=ctx.author)
-        await channel.send(embed=em)
-        if await send_confirmation(self.bot, ctx, "Would you like to ping `@everyone`?", timeout=10):
-            await channel.send("||@everyone||")
+        if await send_confirmation(self.bot, ctx, "Would you like to ping someone?", timeout=10):
+            source = [
+                ["Ping roles", "Decide the role to ping in announcement.", None, 'role', True]
+            ]
+            answer = await WaitFor(self.bot, ctx, source, colors['blue'], "Leave it to none for @everyone").start()
+            await channel.send(embed=em)
+            if answer and not answer[0]:
+                await channel.send("||@everyone||")
+            else:
+                await channel.send(answer[0].mention)
         return await send_success(ctx, f"Announcement sent to {channel.mention}", delete_after=10)
 
     @command(

@@ -22,7 +22,8 @@ mc_server = [
 colors = {
     'green': 0x89f989,
     'red': 0xee6565,
-    'yellow': 0xE6E71A
+    'yellow': 0xE6E71A,
+    'blue': 0x1ABC9C
 }
 
 VALID_DB = ['welcomer', 'goodbye', 'guilds', 'verify']

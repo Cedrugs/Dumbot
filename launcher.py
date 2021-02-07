@@ -35,6 +35,6 @@ data = read_json('config.json')
 version = data['version']
 
 with setup_logging():
-    data['version'] = version + 0.01
+    data['version'] = version + 0.1
     write_json(data, 'config.json')
     bot.run(version)
