@@ -1,4 +1,1 @@
-[Sunday | 2021/02/07 10:23:11] [INFO   ] discord.client: logging in using static token
-[Sunday | 2021/02/07 10:23:12] [INFO   ] discord.gateway: Shard ID 0 has sent the IDENTIFY payload.
-[Sunday | 2021/02/07 10:23:12] [INFO   ] discord.gateway: Shard ID 0 has connected to Gateway: ["gateway-prd-main-lbl5",{"micros":71862,"calls":["discord-sessions-prd-2-50",{"micros":66355,"calls":["start_session",{"micros":40888,"calls":["api-prd-main-5t18",{"micros":38599,"calls":["get_user",{"micros":5532},"add_authorized_ip",{"micros":2351},"get_guilds",{"micros":4092},"coros_wait",{"micros":0}]}]},"guilds_connect",{"micros":9,"calls":[]},"presence_connect",{"micros":2,"calls":[]}]}]}] (Session ID: 5537b624abbea578b15be041334fd048).
-[Sunday | 2021/02/07 10:23:14] [INFO   ] lib.bot: Bot is turned on
+[Sunday | 2021/02/07 10:29:23] [INFO   ] discord.client: logging in using static token

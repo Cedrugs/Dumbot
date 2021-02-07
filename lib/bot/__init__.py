@@ -105,7 +105,7 @@ class Bot(AutoShardedBot):
         linebreaks()
         print(f"Running on python {python_version()} | Discord.py {__version__} | {round(self.latency * 1000)}ms")
         linebreaks()
-        log.info('Bot is turned on')
+        log.info(f'Bot is turned on and connected to {self.user} | Running on {self.guilds} guilds')
 
     async def on_message(self, message):
         if message.author.bot:
