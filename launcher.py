@@ -1,5 +1,6 @@
 from lib.bot import bot
 from utils.jsons import write_json, read_json
+from math import floor
 
 
 import logging
@@ -35,6 +36,6 @@ data = read_json('config.json')
 version = data['version']
 
 with setup_logging():
-    data['version'] = version + 0.1
+    data['version'] = version + 0.01
     write_json(data, 'config.json')
     bot.run(version)

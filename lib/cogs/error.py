@@ -36,7 +36,8 @@ class Error(Cog, name='Error'):
             elif isinstance(error, commands.DisabledCommand):
                 err_msg = f"This command either is disabled, or under development."
             elif isinstance(error, commands.BotMissingPermissions):
-                err_msg = f"I'm missing `{', '.join(f'`{perms}`` permission(s)' for perms in error.missing_perms)}`"
+                perms = ', '.join(f'`{str(perm).title().replace("_", " ")}`' for perm in error.missing_perms)
+                err_msg = f"I'm missing {perms} permission(s)"
             elif isinstance(error, discord.Forbidden):
                 err_msg = f"I don't have enough permissions to do this"
             elif isinstance(error, commands.NoPrivateMessage):
