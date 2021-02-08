@@ -46,9 +46,12 @@ class Error(Cog, name='Error'):
             elif isinstance(error, commands.CheckFailure):
                 pass
             elif isinstance(error, commands.BadArgument):
+                print(error)
                 if str(error).startswith('Converting to "int"'):
                     param = str(error).split('"')
                     err_msg = f'Parameter `{param[3]}` must be a number'
+                else:
+                    print(error)
             elif isinstance(error.original, NotBanned):
                 err_msg = f"{error.original.uname} is not banned"
             elif isinstance(error, commands.CommandInvokeError):

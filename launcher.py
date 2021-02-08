@@ -1,6 +1,5 @@
 from lib.bot import bot
 from utils.jsons import write_json, read_json
-from math import floor
 
 
 import logging

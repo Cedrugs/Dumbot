@@ -7,6 +7,8 @@ from utils.collections import *
 from utils.error import *
 from typing import Optional, List, Union
 from emoji import UNICODE_EMOJI
+from discord import Webhook, AsyncWebhookAdapter
+from aiohttp import ClientSession
 
 
 import discord
@@ -17,7 +19,7 @@ import asyncio
 __all__ = (
     'get_db_prefix', 'linebreaks', 'generate_param', 'BannedMember', 'send_error', 'send_success', 'get_mute_role',
     'Duration', 'cv_sec', 'dm_user', 'num_cv', 'send_confirmation', 'nickname', 'clean_roles', 'del_msg', 'is_unicode',
-    'finditer', 'fetch_message'
+    'finditer', 'fetch_message', 'send_webhook'
 )
 
 
@@ -283,6 +285,12 @@ async def dm_user(user: discord.Member, message: str):
         pass
     except discord.HTTPException:
         pass
+
+
+async def send_webhook(url, **kwargs):
+    async with ClientSession() as session:
+        webhook = Webhook.from_url(url, adapter=AsyncWebhookAdapter(session))
+        await webhook.send(content=kwargs.get('content', None), embed=kwargs.get('embed', None))
 
 
 class BannedMember(commands.Converter):

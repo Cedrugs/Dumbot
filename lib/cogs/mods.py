@@ -410,7 +410,7 @@ class Mods(Cog, name='Moderation'):
     @command(
         name='changenick',
         description='Change someone nickname',
-        aliases=['cn', 'cnick']
+        aliases=['cn', 'cnick', 'setnick', 'snick']
     )
     @guild_only()
     @bot_has_permissions(manage_nicknames=True)
