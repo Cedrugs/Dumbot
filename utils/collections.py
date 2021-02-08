@@ -28,6 +28,7 @@ colors = {
 
 VALID_DB = ['welcomer', 'goodbye', 'guilds', 'verify']
 YES_ARGS = ['yes', 'yeah', 'yep', '1', 'ya', 'true']
+LOG_EVENT = ['memberjoin', 'memberleft', 'joinvc', 'leftvc']
 
 number_ends = {
     1: "st",

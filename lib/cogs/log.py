@@ -19,21 +19,6 @@ class Log(Cog, name='Logging'):
     def __init__(self, bot):
         self.bot = bot
 
-    @Cog.listener()
-    async def on_voice_state_update(self, member, before, after):
-        data = await db.record("SELECT * FROM logging WHERE GuildID = ?", member.guild.id)
-        if not data or not data[1]:
-            return
-        embed = Embed(colour=colors['green'], timestamp=datetime.utcnow())
-        embed.set_footer(text=f"Member ID: {member.id}")
-        text = None
-        if not before.channel and after.channel:
-            text = f"{member} joined {after.channel}"
-        elif before.channel and not after.channel:
-            text = f"{member} left {before.channel}"
-        embed.set_author(name=text, icon_url=member.avatar_url)
-        await send_webhook(data[1], embed=embed)
-
     @group(
         name='log',
         description='List of enabled log in this server',

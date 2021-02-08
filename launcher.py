@@ -1,5 +1,6 @@
 from lib.bot import bot
 from utils.jsons import write_json, read_json
+from utils.tools import manage_version
 
 
 import logging
@@ -31,10 +32,6 @@ def setup_logging():
             logger.removeHandler(hdlr)
 
 
-data = read_json('config.json')
-version = data['version']
-
 with setup_logging():
-    data['version'] = version + 0.01
-    write_json(data, 'config.json')
+    version = manage_version()
     bot.run(version)

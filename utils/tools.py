@@ -4,6 +4,7 @@ from discord.utils import find
 from lib.database import db
 from utils.checks import CustomCooldown
 from utils.collections import *
+from utils.jsons import *
 from utils.error import *
 from typing import Optional, List, Union
 from emoji import UNICODE_EMOJI
@@ -19,7 +20,7 @@ import asyncio
 __all__ = (
     'get_db_prefix', 'linebreaks', 'generate_param', 'BannedMember', 'send_error', 'send_success', 'get_mute_role',
     'Duration', 'cv_sec', 'dm_user', 'num_cv', 'send_confirmation', 'nickname', 'clean_roles', 'del_msg', 'is_unicode',
-    'finditer', 'fetch_message', 'send_webhook'
+    'finditer', 'fetch_message', 'send_webhook', 'manage_version'
 )
 
 
@@ -134,6 +135,21 @@ def get_cmd_info(cmd: commands.Command):
         "brief": cmd.brief if cmd.brief else None
     })
     print(details)
+
+
+def manage_version():
+    data = read_json('config.json')
+    version: str = data['version']
+    version_digit = version.split('.')
+    digit1, digit2 = int(version_digit[0]), int(version_digit[1][:1])
+    if digit2 > 8:
+        digit2 = 0
+        digit1 += 1
+    digit2 += 1
+    result = f"{digit1}.{digit2}a"
+    data['version'] = result
+    write_json(data, 'config.json')
+    return result
 
 
 def num_cv(number: int):
