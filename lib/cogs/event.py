@@ -23,6 +23,7 @@ DEALINGS IN THE SOFTWARE.
 """
 
 from discord.ext.commands import Cog
+from lib.logics import *
 from lib.database import db
 from utils.collections import *
 from utils.tools import *
@@ -37,21 +38,7 @@ class Event(Cog, name='Event'):
 
     @Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        data = await db.record("SELECT * FROM logging WHERE GuildID = ?", member.guild.id)
-        if not data or not data[1]:
-            return
-        embed = Embed(colour=colors['green'], timestamp=datetime.utcnow())
-        embed.set_footer(text=f"ID: {member.id}")
-        text = None
-        if not before.channel and after.channel:
-            text = f"{member} joined {after.channel}"
-        if before.channel and not after.channel:
-            text = f"{member} left {before.channel}"
-        if before.channel and after.channel:
-            text = f"{member} moved from {before.channel} to {after.channel}"
-        if text:
-            embed.set_author(name=text, icon_url=member.avatar_url)
-            await send_webhook(data[1], embed=embed)
+        await process_voice(member, before, after)
 
 
 def setup(bot):

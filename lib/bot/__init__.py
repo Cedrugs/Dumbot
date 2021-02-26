@@ -55,7 +55,6 @@ class Bot(AutoShardedBot):
                 print(f"{cog.title()} cog has been loaded | {datetime.utcnow().strftime('%X')}")
             except Exception as exc:
                 log.error('Error while loading cogs', exc)
-                print(exc)
 
     def run(self, version):
         self.version = version

@@ -1,11 +1,12 @@
 from aiosqlite import connect as aioconnect, __version__
 
 
-db_version = '0.5a'
-aiosqlite = __version__
+__all__ = ('Database', )
 
 
 class Database:
+
+    version = __version__
 
     def __init__(self, path='./lib/database/db.db'):
 

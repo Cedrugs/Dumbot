@@ -428,6 +428,24 @@ class Mods(Cog, name='Moderation'):
         await user.edit(nick=nick, reason=f"Change Nick | Request by | {ctx.author}")
         return await send_success(ctx, f"Changed {user} nickname to {user.display_name}")
 
+    @command(
+        name='changeprefix',
+        description='Change the prefix for this server',
+        aliases=['cp', 'cprefix'],
+    )
+    @guild_only()
+    @admin_or_perms(manage_guild=True)
+    @bot_has_permissions(manage_messages=True)
+    @cooldown(1, 20, 1, 10, BucketType.user)
+    async def change_prefix(self, ctx, prefix: str):
+        new_prefix = prefix
+        if prefix.endswith(tuple(alphabet)):
+            new_prefix = f'{prefix} '
+        if prefix.lower() == 'reset':
+            new_prefix = '.'
+        await db.autoexecute('UPDATE guilds SET Prefix = ? WHERE GuildID = ?', new_prefix, ctx.guild.id)
+        return await send_success(ctx, f"This server prefix has been set to `{new_prefix}` | `({new_prefix}help)`")
+
 
 def setup(bot):
     bot.add_cog(Mods(bot))
